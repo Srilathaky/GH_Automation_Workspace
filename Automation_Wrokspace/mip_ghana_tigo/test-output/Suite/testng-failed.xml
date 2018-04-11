@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
+  <parameter name="flag" value="1"/>
+  <parameter name="browser" value="firefox"/>
+  <test name="SearchCustomer_Test(failed)">
+    <classes>
+      <class name="com.milvik.mip.customermanagement.testrunner.MIP_SearchCustomer_Test">
+        <methods>
+          <include name="test_setup"/>
+          <include name="tear_down"/>
+          <include name="searchCustFive" invocation-numbers="0 1 2"/>
+          <include name="after_test"/>
+        </methods>
+      </class> <!-- com.milvik.mip.customermanagement.testrunner.MIP_SearchCustomer_Test -->
+    </classes>
+  </test> <!-- SearchCustomer_Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="5" passed="5">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="88381" started-at="2018-03-29T10:03:10Z" finished-at="2018-03-29T10:04:39Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="88381" started-at="2018-03-29T10:03:10Z" finished-at="2018-03-29T10:04:39Z">
+      <class name="com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test">
+        <test-method status="PASS" signature="test_setup(java.lang.String, java.lang.String)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="test_setup" is-config="true" duration-ms="75929" started-at="2018-03-29T15:33:10Z" finished-at="2018-03-29T15:34:26Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[firefox]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[0]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_setup -->
+        <test-method status="PASS" signature="startTest()[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="startTest" is-config="true" duration-ms="3462" started-at="2018-03-29T15:34:26Z" finished-at="2018-03-29T15:34:30Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startTest -->
+        <test-method status="PASS" signature="forgotPassFive(java.lang.String)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="forgotPassFive" duration-ms="1150" started-at="2018-03-29T15:34:30Z" data-provider="withoutuserid" finished-at="2018-03-29T15:34:31Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[Please enter Login ID]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- forgotPassFive -->
+        <test-method status="PASS" signature="startTest()[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="startTest" is-config="true" duration-ms="317" started-at="2018-03-29T15:34:31Z" finished-at="2018-03-29T15:34:31Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startTest -->
+        <test-method status="PASS" signature="after_test(org.testng.ITestResult)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="after_test" is-config="true" duration-ms="0" started-at="2018-03-29T15:34:31Z" finished-at="2018-03-29T15:34:31Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=forgotPassFive status=SUCCESS method=MIP_ForgotPassword_Test.forgotPassFive(java.lang.String)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_test -->
+        <test-method status="PASS" signature="forgotPassFour(java.lang.String, java.lang.String)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="forgotPassFour" duration-ms="2139" started-at="2018-03-29T15:34:31Z" data-provider="withoutEmail" finished-at="2018-03-29T15:34:33Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[TA9]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[Sorry, we do not have your E-mail ID. Kindly contact the help-desk to reset your password.]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- forgotPassFour -->
+        <test-method status="PASS" signature="startTest()[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="startTest" is-config="true" duration-ms="315" started-at="2018-03-29T15:34:33Z" finished-at="2018-03-29T15:34:34Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startTest -->
+        <test-method status="PASS" signature="after_test(org.testng.ITestResult)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="after_test" is-config="true" duration-ms="0" started-at="2018-03-29T15:34:33Z" finished-at="2018-03-29T15:34:33Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=forgotPassFour status=SUCCESS method=MIP_ForgotPassword_Test.forgotPassFour(java.lang.String, java.lang.String)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_test -->
+        <test-method status="PASS" signature="forgotPassOne()[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="forgotPassOne" duration-ms="397" started-at="2018-03-29T15:34:34Z" finished-at="2018-03-29T15:34:34Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- forgotPassOne -->
+        <test-method status="PASS" signature="startTest()[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="startTest" is-config="true" duration-ms="272" started-at="2018-03-29T15:34:34Z" finished-at="2018-03-29T15:34:34Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startTest -->
+        <test-method status="PASS" signature="after_test(org.testng.ITestResult)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="after_test" is-config="true" duration-ms="0" started-at="2018-03-29T15:34:34Z" finished-at="2018-03-29T15:34:34Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=forgotPassOne status=SUCCESS method=MIP_ForgotPassword_Test.forgotPassOne()[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_test -->
+        <test-method status="PASS" signature="forgotPassThree(java.lang.String, java.lang.String)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="forgotPassThree" duration-ms="987" started-at="2018-03-29T15:34:34Z" data-provider="invaliduser" finished-at="2018-03-29T15:34:35Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[invalid]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[The login id entered is invalid.]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- forgotPassThree -->
+        <test-method status="PASS" signature="after_test(org.testng.ITestResult)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="after_test" is-config="true" duration-ms="0" started-at="2018-03-29T15:34:35Z" finished-at="2018-03-29T15:34:35Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=forgotPassThree status=SUCCESS method=MIP_ForgotPassword_Test.forgotPassThree(java.lang.String, java.lang.String)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_test -->
+        <test-method status="PASS" signature="startTest()[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="startTest" is-config="true" duration-ms="332" started-at="2018-03-29T15:34:35Z" finished-at="2018-03-29T15:34:36Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startTest -->
+        <test-method status="PASS" signature="forgotPassTwo(java.lang.String, java.lang.String)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="forgotPassTwo" duration-ms="991" started-at="2018-03-29T15:34:36Z" data-provider="withoutEmail" finished-at="2018-03-29T15:34:37Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[TA9]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[Sorry, we do not have your E-mail ID. Kindly contact the help-desk to reset your password.]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- forgotPassTwo -->
+        <test-method status="PASS" signature="tear_down(java.lang.String)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="tear_down" is-config="true" duration-ms="2058" started-at="2018-03-29T15:34:37Z" finished-at="2018-03-29T15:34:39Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[0]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tear_down -->
+        <test-method status="PASS" signature="after_test(org.testng.ITestResult)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67]" name="after_test" is-config="true" duration-ms="0" started-at="2018-03-29T15:34:37Z" finished-at="2018-03-29T15:34:37Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=forgotPassTwo status=SUCCESS method=MIP_ForgotPassword_Test.forgotPassTwo(java.lang.String, java.lang.String)[pri:0, instance:com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test@224edc67] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- after_test -->
+      </class> <!-- com.milvik.mip.passwordmanagement.testrunner.MIP_ForgotPassword_Test -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

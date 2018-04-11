@@ -1,0 +1,532 @@
+package com.milvik.mip.pageobjects;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.milvik.mip.constants.MIP_Constants;
+import com.milvik.mip.pageutil.MIP_CustomerManagementPage;
+import com.milvik.mip.utility.MIP_DateFunctionality;
+import com.milvik.mip.utility.MIP_Logging;
+
+public class MIP_RegisterCustomerPage extends MIP_CustomerManagementPage {
+	WebDriver driver;
+	static Logger logger;
+	public static final int NIDLENGTH = 16;
+	static {
+		logger = MIP_Logging.logDetails("MIP_RegisterCustomerPage");
+	}
+
+	public MIP_RegisterCustomerPage(WebDriver driver) {
+		super(driver);
+		this.driver = driver;
+	}
+
+	@FindBy(id = "msisdn")
+	WebElement msisdn_;
+	@FindBy(id = "search-icon")
+	WebElement search_icon_;
+
+	public MIP_RegisterCustomerPage enterMSISDN(String msisdn) {
+		try {
+			logger.info("Entering the customer MSISDN");
+			for (int i = 0; i < 3; i++) {
+				try {
+
+					WebElement ele = this.waitForElementToVisible(By
+							.id("msisdn"));
+					this.enterText(ele, msisdn);
+					if (ele.getAttribute("value").equalsIgnoreCase(msisdn)) {
+						break;
+
+					}
+				} catch (Exception e) {
+					logger.info("Entering msisdn again after exception");
+				}
+			}
+
+		} catch (Exception e) {
+			logger.error("Error while entering the MSISDN", e);
+		}
+		return this;
+	}
+
+	public boolean validateRegCustObjects() {
+		boolean value1 = this.waitForElementToPresent(By.id("label_msisdn"))
+				.getText().trim().equalsIgnoreCase("Mobile Number  :  *");
+		boolean value2 = this.waitForElementToPresent(By.id("msisdn"))
+				.getAttribute("type").equalsIgnoreCase("text");
+
+		boolean value3 = driver.findElement(By.id("label_productId")).getText()
+				.trim().equalsIgnoreCase("Available Products  :  ".trim());
+		String products = driver.findElement(
+				By.xpath("//input[@id='productId']//parent::div")).getText();
+		boolean value22 = ((products
+				.contains(MIP_CustomerManagementPage.XTRALIFE))
+				&& (products.contains(MIP_CustomerManagementPage.HOSPITAL)) && (products
+				.contains(MIP_CustomerManagementPage.IP)));
+		boolean value4 = driver
+				.findElement(By.xpath("//input[@id='productId'][@value='2']"))
+				.getAttribute("type").equalsIgnoreCase("checkbox");
+		boolean value5 = driver
+				.findElement(By.xpath("//input[@id='productId'][@value='3']"))
+				.getAttribute("type").equalsIgnoreCase("checkbox");
+		boolean value6 = driver
+				.findElement(By.xpath("//input[@id='productId'][@value='4']"))
+				.getAttribute("type").equalsIgnoreCase("checkbox");
+
+		boolean value7 = driver.findElement(By.id("label_fname")).getText()
+				.trim().equalsIgnoreCase("First Name  :  * ".trim());
+		boolean value8 = this.waitForElementToPresent(By.id("fname"))
+				.getAttribute("type").equalsIgnoreCase("text");
+		boolean value9 = this.waitForElementToPresent(By.id("label_sname"))
+				.getText().trim().equalsIgnoreCase("Surname  :  *");
+		boolean value10 = this.waitForElementToPresent(By.id("label_dob"))
+				.getText().trim().equalsIgnoreCase("Date of Birth  :".trim());
+		boolean value11 = this.waitForElementToPresent(By.id("dob"))
+				.getTagName().equalsIgnoreCase("input");
+		boolean value12 = this.waitForElementToPresent(By.id("calBut1"))
+				.isDisplayed();
+
+		boolean value13 = this.waitForElementToPresent(By.id("label_age"))
+				.getText().trim()
+				.equalsIgnoreCase("Age at Time of Registration  :*".trim());
+		boolean value14 = this.waitForElementToPresent(By.id("age"))
+				.getTagName().equalsIgnoreCase("input");
+
+		boolean value15 = this.waitForElementToPresent(By.id("label_gender"))
+				.getText().trim().equalsIgnoreCase("Gender  :  * ".trim());
+		boolean value16 = this.waitForElementToPresent(
+				By.xpath("//input[@id='gender'][@value='M']")).isDisplayed();
+		boolean value17 = this.waitForElementToPresent(
+				By.xpath("//input[@id='gender'][@value='F']")).isDisplayed();
+		boolean value18 = this.waitForElementToPresent(By.id("clearBtn"))
+				.getText().trim().equalsIgnoreCase("Clear");
+		boolean value20 = this.waitForElementToPresent(By.id("saveBtn"))
+				.getText().trim().equalsIgnoreCase("Save");
+		boolean value21 = this.waitForElementToPresent(By.id("clearBtn"))
+				.getText().trim().equalsIgnoreCase("Clear");
+		if (value1 && value2 && value3 && value4 && value6 && value7 && value8
+				&& value9 && value10 && value11 && value12 && value13
+				&& value14 && value15 && value16 && value17 && value5
+				&& value18 && value20 && value21 && value22) {
+			return true;
+		}
+		return false;
+	}
+
+	public MIP_RegisterCustomerPage selectXtraLife() {
+		logger.info("Selecting XtraLife");
+		this.waitForElementToVisible(
+				By.xpath("//input[@id='productId'][@value='2']")).click();
+		logger.info("Selected XtraLife product");
+		return this;
+	}
+
+	public MIP_RegisterCustomerPage selectHospitalization() {
+		logger.info("Selecting Hospitalization");
+		this.waitForElementToVisible(
+				By.xpath("//input[@id='productId'][@value='3']")).click();
+		logger.info("Selected Hospitalization product");
+		return this;
+	}
+
+	public MIP_RegisterCustomerPage selectIncomeProtection() {
+		logger.info("Selecting Income protection");
+		this.waitForElementToVisible(
+				By.xpath("//input[@id='productId'][@value='4']")).click();
+		logger.info("Selected Income protection product");
+		return this;
+	}
+
+	public MIP_RegisterCustomerPage enterCustInfo(String name, String sname,
+			String dob, String age, String gender) {
+		logger.info("Entering customer Information");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebElement fname = this.waitForElementToVisible(By.id("fname"));
+		WebElement s_name = this.waitForElementToVisible(By.id("sname"));
+		System.out.println(fname.getAttribute("value"));
+		if ((fname.getAttribute("value").equals(null))
+				|| (fname.getAttribute("value").equals(""))) {
+			this.enterText(fname, name);
+			this.enterText(s_name, sname);
+			if (gender.equalsIgnoreCase("Male")) {
+				driver.findElement(
+						By.xpath("//input[@id='gender'][@value='M']")).click();
+			} else {
+				driver.findElement(
+						By.xpath("//input[@id='gender'][@value='F']")).click();
+			}
+
+		}
+
+		if (!gender.equals("")) {
+			if (gender.equalsIgnoreCase("Male")) {
+				driver.findElement(
+						By.xpath("//input[@id='gender'][@value='M']")).click();
+			} else {
+				driver.findElement(
+						By.xpath("//input[@id='gender'][@value='F']")).click();
+			}
+		}
+		if (!age.equals("")) {
+			this.enterText(this.waitForElementToVisible(By.id("age")), age);
+		}
+		if (!dob.equals("")) {
+			logger.info("Selecting DOB");
+			String[] date = MIP_DateFunctionality.getDate(dob,
+					MIP_Constants.DOB_FORMAT);
+			this.waitForElementToVisible(
+					By.xpath("//div[@class='calendar-icon']")).click();
+
+			Actions a = new Actions(driver);
+			a.moveToElement(
+					this.waitForElementToVisible(By
+							.xpath("//table/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div")))
+					.build().perform();
+			this.waitForElementToVisible(
+					By.xpath("//table/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div"))
+					.click();
+			WebElement ele = this.waitForElementToVisible(By
+					.className("DynarchCalendar-menu-year"));
+			ele.clear();
+			ele.sendKeys(date[2]);
+			this.waitForElementToVisible(
+					By.xpath("//table[@class='DynarchCalendar-menu-mtable']/tbody//tr//td/div[contains(text(),'"
+							+ date[1] + "')]")).click();
+			if ((date[0].charAt(0) + "").equals("0")) {
+				date[0] = date[0].charAt(1) + "";
+			}
+
+			this.waitForElementToVisible(
+					By.xpath("//div[@class='DynarchCalendar-body']/table[@class='DynarchCalendar-bodyTable']/tbody//tr//td/div[@class='DynarchCalendar-day' or @class='DynarchCalendar-day DynarchCalendar-weekend'][contains(text(),'"
+							+ date[0] + "')]")).click();
+
+		}
+		logger.info("Entered customer Information");
+		return this;
+	}
+
+	public MIP_RegisterCustomerPage enterInsuredRelaiveInfo_XL(
+			String xl_relation, String xl_rel_fname, String xl_rel_sname,
+			String xl_rel_dob, String xl_age, String xl_inform_ben,
+			String xl_rel_msisdn) {
+		logger.info("Entering Insured Relative Information for XL");
+		this.selectDropDownbyText(
+				this.waitForElementToPresent(By.id("insRelation")), xl_relation);
+		this.enterText(this.waitForElementToPresent(By.id("insRelFname")),
+				xl_rel_fname);
+		this.enterText(this.waitForElementToPresent(By.id("insRelSurname")),
+				xl_rel_sname);
+		if (xl_inform_ben.equalsIgnoreCase("yes")) {
+			this.waitForElementToPresent(
+					By.xpath("//input[@id='benInsMsisdnYesNo'][@value='yes']"))
+					.click();
+			this.enterText(this.waitForElementToPresent(By.id("insMsisdn")),
+					xl_rel_msisdn);
+		} else {
+			this.waitForElementToPresent(
+					By.xpath("//input[@id='benInsMsisdnYesNo'][@value='no']"))
+					.click();
+		}
+		if (!xl_age.equals("")) {
+			this.enterText(this.waitForElementToVisible(By.id("insRelAge")),
+					xl_age);
+		}
+		if (!xl_rel_dob.equals("")) {
+			logger.info("Selecting DOB for Insured relative XL");
+			String[] date = MIP_DateFunctionality.getDate(xl_rel_dob,
+					MIP_Constants.DOB_FORMAT);
+			this.waitForElementToVisible(By.id("calBut2")).click();
+
+			Actions a = new Actions(driver);
+			WebDriverWait w = new WebDriverWait(driver, 10);
+			try {
+				a.moveToElement(
+						w.until(ExpectedConditions.visibilityOfElementLocated(By
+								.xpath("//table[2]/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div"))))
+						.build().perform();
+				this.waitForElementToVisible(
+						By.xpath("//table[2]/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div"))
+						.click();
+				WebElement ele = this
+						.waitForElementToVisible(By
+								.xpath("//table[2]/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[1]/tbody/tr[1]/td/input"));
+
+				ele.clear();
+				ele.sendKeys(date[2]);
+
+				this.waitForElementToVisible(
+						By.xpath("//table[2]/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[2]/tbody/tr/td/div[contains(text(),'"
+								+ date[1] + "')]")).click();
+				if ((date[0].charAt(0) + "").equals("0")) {
+					date[0] = date[0].charAt(1) + "";
+				}
+				this.waitForElementToVisible(
+						By.xpath("//table[2]/tbody/tr/td/div/div[2]/table/tbody//tr//td/div[@class='DynarchCalendar-day' or @class='DynarchCalendar-day DynarchCalendar-weekend'][contains(text(),'"
+								+ date[0] + "')]")).click();
+			} catch (Exception e) {
+				a.moveToElement(
+						w.until(ExpectedConditions.visibilityOfElementLocated(By
+								.xpath("//table/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div"))))
+						.build().perform();
+				this.waitForElementToVisible(
+						By.xpath("//table/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div"))
+						.click();
+				WebElement ele = this
+						.waitForElementToVisible(By
+								.xpath("//table/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[1]/tbody/tr[1]/td/input"));
+
+				ele.clear();
+				ele.sendKeys(date[2]);
+
+				this.waitForElementToVisible(
+						By.xpath("//table/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[2]/tbody/tr/td/div[contains(text(),'"
+								+ date[1] + "')]")).click();
+				if ((date[0].charAt(0) + "").equals("0")) {
+					date[0] = date[0].charAt(1) + "";
+				}
+				this.waitForElementToVisible(
+						By.xpath("//table/tbody/tr/td/div/div[2]/table/tbody//tr//td/div[@class='DynarchCalendar-day' or @class='DynarchCalendar-day DynarchCalendar-weekend'][contains(text(),'"
+								+ date[0] + "')]")).click();
+			}
+		}
+		logger.info("Entered Insured Relative Information for XL");
+		return this;
+	}
+
+	public MIP_RegisterCustomerPage enterInsuredRelaiveInfo_HP(
+			String hp_relation, String hp_fname, String hp_sname,
+			String hp_dob, String hp_age, String inform_ben_hp,
+			String hp_rel_mobilenum) {
+		logger.info("Entering Insured Relative Information for HP");
+		this.selectDropDownbyText(
+				this.waitForElementToPresent(By.id("insHpRelation")),
+				hp_relation);
+		this.enterText(this.waitForElementToPresent(By.id("insHpRelFname")),
+				hp_fname);
+		this.enterText(this.waitForElementToPresent(By.id("insHpRelSurname")),
+				hp_sname);
+		if (inform_ben_hp.equalsIgnoreCase("yes")) {
+			this.waitForElementToPresent(
+					By.xpath("//input[@id='benHpInsMsisdnYesNo'][@value='yes']"))
+					.click();
+			this.enterText(this.waitForElementToPresent(By.id("insHpMsisdn")),
+					hp_rel_mobilenum);
+		} else {
+			this.waitForElementToVisible(
+					By.xpath("//input[@id='benHpInsMsisdnYesNo'][@value='no']"))
+					.click();
+		}
+		if (!hp_age.equals("")) {
+			this.enterText(this.waitForElementToPresent(By.id("insHpRelAge")),
+					hp_age);
+		}
+		if (!hp_dob.equals("")) {
+			logger.info("Selecting DOB for Insured relative HP");
+			String[] date = MIP_DateFunctionality.getDate(hp_dob,
+					MIP_Constants.DOB_FORMAT);
+			this.waitForElementToVisible(By.id("calBut3")).click();
+			Actions a = new Actions(driver);
+			WebElement ele = null;
+			WebDriverWait w = new WebDriverWait(driver, 10);
+			try {
+				a.moveToElement(
+						w.until(ExpectedConditions.visibilityOfElementLocated(By
+								.xpath("//table[2]/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div"))))
+						.build().perform();
+				w.until(ExpectedConditions.visibilityOfElementLocated(By
+						.xpath("//table[2]/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div")))
+						.click();
+				ele = this
+						.waitForElementToVisible(By
+								.xpath("//table[2]/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[1]/tbody/tr[1]/td/input"));
+				ele.clear();
+				ele.sendKeys(date[2]);
+				w.until(ExpectedConditions.visibilityOfElementLocated(By
+						.xpath("//table[2]/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[2]/tbody/tr/td/div[contains(text(),'"
+								+ date[1] + "')]"))).click();
+
+				if ((date[0].charAt(0) + "").equals("0")) {
+					date[0] = date[0].charAt(1) + "";
+				}
+
+				this.waitForElementToVisible(
+						By.xpath("//table[2]/tbody/tr/td/div/div[2]/table/tbody/tr/td/div[@class='DynarchCalendar-day' or @class='DynarchCalendar-day DynarchCalendar-weekend'][contains(text(),'"
+								+ date[0] + "')]")).click();
+				if (driver.findElement(By.id("insHpRelIrDoB"))
+						.getAttribute("value").equals("")) {
+					w.until(ExpectedConditions.visibilityOfElementLocated(By
+							.xpath("//table[2]/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[2]/tbody/tr/td/div[contains(text(),'"
+									+ date[1] + "')]"))).click();
+					this.waitForElementToVisible(
+							By.xpath("//table[2]/tbody/tr/td/div/div[2]/table/tbody/tr/td/div[@class='DynarchCalendar-day' or @class='DynarchCalendar-day DynarchCalendar-weekend'][contains(text(),'"
+									+ date[0] + "')]")).click();
+				}
+			} catch (TimeoutException e) {
+				try {
+					a.moveToElement(
+							w.until(ExpectedConditions.visibilityOfElementLocated(By
+									.xpath("//table/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div"))))
+							.build().perform();
+					w.until(ExpectedConditions.visibilityOfElementLocated(By
+							.xpath("//table/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div")))
+							.click();
+					ele = this
+							.waitForElementToVisible(By
+									.xpath("//table/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[1]/tbody/tr[1]/td/input"));
+					ele.clear();
+					ele.sendKeys(date[2]);
+					w.until(ExpectedConditions.visibilityOfElementLocated(By
+							.xpath("//table/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[2]/tbody/tr/td/div[contains(text(),'"
+									+ date[1] + "')]"))).click();
+					if ((date[0].charAt(0) + "").equals("0")) {
+						date[0] = date[0].charAt(1) + "";
+					}
+
+					this.waitForElementToVisible(
+							By.xpath("//table/tbody/tr/td/div/div[2]/table/tbody/tr/td/div[@class='DynarchCalendar-day' or @class='DynarchCalendar-day DynarchCalendar-weekend'][contains(text(),'"
+									+ date[0] + "')]")).click();
+				} catch (TimeoutException e1) {
+					a.moveToElement(
+							w.until(ExpectedConditions.visibilityOfElementLocated(By
+									.xpath("//table[3]/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div"))))
+							.build().perform();
+					w.until(ExpectedConditions.visibilityOfElementLocated(By
+							.xpath("//table[3]/tbody/tr/td/div/div[1]/table/tbody/tr/td/div/div")))
+							.click();
+					ele = this
+							.waitForElementToVisible(By
+									.xpath("//table[3]/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[1]/tbody/tr[1]/td/input"));
+					ele.clear();
+					ele.sendKeys(date[2]);
+					w.until(ExpectedConditions.visibilityOfElementLocated(By
+							.xpath("//table[3]/tbody/tr/td/div/div[4]/table/tbody/tr/td/table[2]/tbody/tr/td/div[contains(text(),'"
+									+ date[1] + "')]"))).click();
+					if ((date[0].charAt(0) + "").equals("0")) {
+						date[0] = date[0].charAt(1) + "";
+					}
+
+					this.waitForElementToVisible(
+							By.xpath("//table[3]/tbody/tr/td/div/div[2]/table/tbody/tr/td/div[@class='DynarchCalendar-day' or @class='DynarchCalendar-day DynarchCalendar-weekend'][contains(text(),'"
+									+ date[0] + "')]")).click();
+				}
+			}
+		}
+		logger.info("Entered Insured Relative Information for HP");
+		return this;
+	}
+
+	public MIP_RegisterCustomerPage selectIncomeProtectionCoverDetails(
+			String offer_cover) {
+		Select s = new Select(this.waitForElementToVisible(By
+				.id("productCoverIdIP")));
+		System.out.println(s.getOptions().get(1).getText());
+		this.selectDropDownbyText(
+				this.waitForElementToVisible(By.id("productCoverIdIP")),
+				offer_cover);
+		return this;
+	}
+
+	public MIP_RegisterCustomerPage enterNomineeInfo_IP(String nominee_fname,
+			String nominee_sname, String nominee_age, String inform_nominee,
+			String nominee_mobilenum) {
+
+		this.waitForElementToVisible(By.id("ipNomFirstName")).sendKeys(
+				nominee_fname);
+		this.waitForElementToVisible(By.id("ipNomSurName")).sendKeys(
+				nominee_sname);
+		this.waitForElementToVisible(By.id("ipNomAge")).sendKeys(nominee_age);
+		if (inform_nominee.equalsIgnoreCase("yes")) {
+			this.waitForElementToPresent(
+					By.xpath("//input[@id='benMsisdnYesNo'][@value='yes']"))
+					.click();
+			this.enterText(this.waitForElementToPresent(By.id("ipInsMsisdn")),
+					nominee_mobilenum);
+		} else {
+			this.waitForElementToPresent(
+					By.xpath("//input[@id='benMsisdnYesNo'][@value='no']"))
+					.click();
+		}
+		return this;
+	}
+
+	public MIP_RegisterCustomerPage clickOnSave() {
+		logger.info("Clicking on Save button in Customer REgistration page");
+		this.clickOnElement(By.id("saveBtn"));
+		return this;
+	}
+
+	public void clickOnClear() {
+		this.clickOnElement(By.id("clearBtn"));
+	}
+
+	public void clickOnBack() {
+		this.clickOnElement(By.id("backBtn"));
+	}
+
+	public MIP_RegisterCustomerPage confirmCustReg(String option) {
+		this.confirmPopUp(option);
+		return this;
+	}
+
+	public String getSuccessMsg() {
+		WebDriverWait w = new WebDriverWait(driver, 50);
+		return w.until(
+				ExpectedConditions.visibilityOfElementLocated(By
+						.id("message_div"))).getText();
+	}
+
+	public String getErrorMsg() {
+		return this.waitForElementToPresent(By.id("errormessage_div"))
+				.getText();
+	}
+
+	public String getValidationMsg() {
+		logger.info("Getting Validation message in Customer registration page");
+		return this.waitForElementToPresent(By.id("validationMessages"))
+				.getText();
+	}
+
+	public String msisdnReadOnlyCheck() {
+
+		return this.waitForElementToPresent(By.id("msisdn")).getAttribute(
+				"readonly");
+	}
+
+	public boolean verifyBackButton() {
+		return this.waitForElementToPresent(By.id("backBtn")).isDisplayed();
+	}
+
+	public List<WebElement> getBenefitleveloption() {
+		this.waitForElementToVisible(By.id("offerId")).click();
+		return this.selectDropDownOptions(this.waitForElementToVisible(By
+				.id("offerCoverIdInsurance")));
+	}
+
+	public void clickOnSearchButton() {
+		try {
+			logger.info("Clicking on search button");
+			this.waitForElementToVisible(By.id("msisdn"));
+			this.waitForElementToVisible(By.id("search-icon")).click();
+
+			logger.info("Clicked on search button");
+		} catch (Exception e) {
+			this.waitForElementToVisible(By.id("search-icon")).click();
+		}
+	}
+}

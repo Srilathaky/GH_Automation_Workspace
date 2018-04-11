@@ -1,0 +1,212 @@
+package com.milvik.mip.testrunner;
+
+import java.util.Map;
+
+import org.apache.log4j.chainsaw.Main;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import com.milvik.mip.dataprovider.MIP_RegCust_TestData;
+import com.milvik.mip.dbqueries.MIP_RegisterCustomer_Queries;
+import com.milvik.mip.pageobjects.MIP_HomePage;
+import com.milvik.mip.pageobjects.MIP_LoginPage;
+import com.milvik.mip.pageobjects.MIP_RegisterCustomerPage;
+import com.milvik.mip.utility.MIP_BrowserFactory;
+import com.milvik.mip.utility.MIP_DataBaseConnection;
+import com.milvik.mip.utility.MIP_LaunchApplication;
+import com.milvik.mip.utility.MIP_ReadPropertyFile;
+import com.milvik.mip.utility.MIP_ScreenShots;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
+public class MIP_CustRegistration_Test {
+	WebDriver driver;
+	ExtentReports report;
+	ExtentTest logger;
+
+	@BeforeTest
+	@Parameters({ "browser" })
+	public void test_setup(@Optional("firefox") String browser) {
+		report = new ExtentReports(".\\Test_Reports\\Forgotpassword_Test.html");
+		try {
+			Runtime.getRuntime().exec("taskkill /F /IM geckodriver.exe");
+		} catch (Exception e) {
+			System.out.println("No exe found");
+		}
+		MIP_ReadPropertyFile.loadProperty("config");
+		MIP_DataBaseConnection.connectToDatabase();
+		driver = MIP_BrowserFactory.openBrowser(driver, browser);
+
+	}
+
+	@BeforeMethod
+	public void startTest() {
+		try {
+			MIP_LaunchApplication.openApplication(driver);
+		} catch (Exception e) {
+
+		}
+
+	}
+
+	@Test(testName = "TC88", dataProvider = "NotAllowedState", dataProviderClass = MIP_RegCust_TestData.class)
+	public void regCustOne(String msisdn) {
+		logger = report.startTest("Register Customer-TC88");
+		MIP_LoginPage loginpage = PageFactory.initElements(driver,
+				MIP_LoginPage.class);
+		MIP_HomePage homepage = loginpage.login(
+				MIP_ReadPropertyFile.getPropertyValue("username"),
+				MIP_ReadPropertyFile.getPropertyValue("password"));
+		homepage.changeLanguage("Inglés").clickOnMenu("Customer Management");
+		homepage.clickOnMenu("Register Customer");
+		MIP_RegisterCustomerPage regpage = new MIP_RegisterCustomerPage(driver);
+		regpage.enterMSISDN(msisdn).clickOnSearchButton();
+		Assert.assertTrue(regpage.validateRegCustObjects());
+		regpage.clickonLogout();
+		logger.log(LogStatus.PASS, "Test passed");
+	}
+
+	@Test(testName = "TC89", dataProvider = "RegPrepaidActive", dataProviderClass = MIP_RegCust_TestData.class)
+	public void regCustTwo(String mobilenum, String offer, String benefitlevel,
+			String cust_name, String id, String dob, String gender,
+			String relation, String ben_name, String msg, String Type,
+			String is_active, String is_prepaid, String plan_code,
+			String offer_cover_id, String registration_channel_id,
+			String offer_id, String sms) {
+		logger = report.startTest("Register Customer-TC89");
+		MIP_LoginPage loginpage = PageFactory.initElements(driver,
+				MIP_LoginPage.class);
+		MIP_HomePage homepage = loginpage.login(
+				MIP_ReadPropertyFile.getPropertyValue("username"),
+				MIP_ReadPropertyFile.getPropertyValue("password"));
+		homepage.changeLanguage("Inglés").clickOnMenu("Customer Management");
+		homepage.clickOnMenu("Register Customer");
+		MIP_RegisterCustomerPage regpage = new MIP_RegisterCustomerPage(driver);
+		regpage.enterMSISDN(mobilenum).clickOnSearchButton();
+		regpage.selectOfferInfo(offer, benefitlevel)
+				.enterCustInfo(cust_name, id, dob, gender)
+				.enterBenInfo(relation, ben_name).clickOnSave()
+				.confirmCustReg("yes");
+
+		Assert.assertTrue(regpage.getSuccessMsg().trim().replaceAll("\\s", "")
+				.equalsIgnoreCase(msg.trim().replaceAll("\\s", "")));
+		Map<String, String> custinfo = MIP_RegisterCustomer_Queries
+				.getCustomerDetails(mobilenum);
+		Assert.assertTrue(custinfo.get("Type").equalsIgnoreCase(Type));
+		Assert.assertTrue(custinfo.get("is_active").equalsIgnoreCase(is_active));
+		Assert.assertTrue(custinfo.get("is_prepaid").equalsIgnoreCase(
+				is_prepaid));
+		Assert.assertTrue(custinfo.get("plan_code").equalsIgnoreCase(plan_code));
+		Map<String, String> offerinfo = MIP_RegisterCustomer_Queries
+				.getOfferSubscription(mobilenum);
+		Assert.assertTrue(offerinfo.get("offer_cover_id").equalsIgnoreCase(
+				offer_cover_id));
+		Assert.assertTrue(offerinfo.get("registration_channel_id")
+				.equalsIgnoreCase(registration_channel_id));
+		Assert.assertTrue(offerinfo.get("offer_id").equalsIgnoreCase(offer_id));
+
+		Map<String, String> beninfo = MIP_RegisterCustomer_Queries
+				.getBeninfo(mobilenum);
+		Assert.assertTrue(beninfo.get("name").equalsIgnoreCase(ben_name));
+		Assert.assertTrue(beninfo.get("cust_relationship").equalsIgnoreCase(
+				relation));
+		Assert.assertTrue(MIP_RegisterCustomer_Queries.getSMSText(mobilenum)
+				.trim().replaceAll("\\s", "")
+				.equalsIgnoreCase(sms.trim().replaceAll("\\s", "")));
+		regpage.clickonLogout();
+		logger.log(LogStatus.PASS, "Test passed");
+	}
+
+	@Test(testName = "TC90", dataProvider = "RegPrepaidSuspend", dataProviderClass = MIP_RegCust_TestData.class)
+	public void regCustThree(String mobilenum, String offer,
+			String benefitlevel, String cust_name, String id, String dob,
+			String gender, String relation, String ben_name, String msg,
+			String Type, String is_active, String is_prepaid, String plan_code,
+			String offer_cover_id, String registration_channel_id,
+			String offer_id, String sms) {
+		logger = report.startTest("Register Customer-TC90");
+		MIP_LoginPage loginpage = PageFactory.initElements(driver,
+				MIP_LoginPage.class);
+		MIP_HomePage homepage = loginpage.login(
+				MIP_ReadPropertyFile.getPropertyValue("username"),
+				MIP_ReadPropertyFile.getPropertyValue("password"));
+		homepage.changeLanguage("Inglés").clickOnMenu("Customer Management");
+		homepage.clickOnMenu("Register Customer");
+		MIP_RegisterCustomerPage regpage = new MIP_RegisterCustomerPage(driver);
+		regpage.enterMSISDN(mobilenum).clickOnSearchButton();
+		regpage.selectOfferInfo(offer, benefitlevel)
+				.enterCustInfo(cust_name, id, dob, gender)
+				.enterBenInfo(relation, ben_name).clickOnSave()
+				.confirmCustReg("yes");
+		Assert.assertTrue(regpage.getSuccessMsg().trim().equalsIgnoreCase(msg));
+		Map<String, String> custinfo = MIP_RegisterCustomer_Queries
+				.getCustomerDetails(mobilenum);
+		Assert.assertTrue(custinfo.get("Type").equalsIgnoreCase(Type));
+		Assert.assertTrue(custinfo.get("is_active").equalsIgnoreCase(is_active));
+		Assert.assertTrue(custinfo.get("is_prepaid").equalsIgnoreCase(
+				is_prepaid));
+		Assert.assertTrue(custinfo.get("plan_code").equalsIgnoreCase(plan_code));
+		Map<String, String> offerinfo = MIP_RegisterCustomer_Queries
+				.getOfferSubscription(mobilenum);
+		Assert.assertTrue(offerinfo.get("offer_cover_id").equalsIgnoreCase(
+				offer_cover_id));
+		Assert.assertTrue(offerinfo.get("registration_channel_id")
+				.equalsIgnoreCase(registration_channel_id));
+		Assert.assertTrue(offerinfo.get("offer_id").equalsIgnoreCase(offer_id));
+
+		Map<String, String> beninfo = MIP_RegisterCustomer_Queries
+				.getBeninfo(mobilenum);
+		Assert.assertTrue(beninfo.get("name").equalsIgnoreCase(ben_name));
+		Assert.assertTrue(beninfo.get("cust_relationship").equalsIgnoreCase(
+				relation));
+		regpage.clickonLogout();
+		/*
+		 * Assert.assertTrue(MIP_RegisterCustomer_Queries.getSMSText(mobilenum)
+		 * .trim().replaceAll("\\s", "")
+		 * .equalsIgnoreCase(sms.trim().replaceAll("\\s", "")));
+		 */
+		logger.log(LogStatus.PASS, "Test passed");
+	}
+
+	@Test(testName = "TC91", dataProvider = "NotAllowedState", dataProviderClass = MIP_RegCust_TestData.class)
+	public void regCustFour(String msisdn, String errmsg) {
+		logger = report.startTest("Register Customer-TC91");
+		MIP_LoginPage loginpage = PageFactory.initElements(driver,
+				MIP_LoginPage.class);
+		MIP_HomePage homepage = loginpage.login(
+				MIP_ReadPropertyFile.getPropertyValue("username"),
+				MIP_ReadPropertyFile.getPropertyValue("password"));
+		homepage.changeLanguage("Inglés").clickOnMenu("Customer Management");
+		homepage.clickOnMenu("Register Customer");
+		MIP_RegisterCustomerPage regpage = new MIP_RegisterCustomerPage(driver);
+		regpage.enterMSISDN(msisdn).clickOnSearchButton();
+		Assert.assertTrue(regpage.getErrorMsg().trim().replaceAll("\\s", "")
+				.equalsIgnoreCase(errmsg.trim().replaceAll("\\s", "")));
+		logger.log(LogStatus.PASS, "Test passed");
+	}
+
+	@AfterMethod(alwaysRun = true)
+	public void after_test(ITestResult res) {
+		if (res.getStatus() == ITestResult.FAILURE) {
+			MIP_ScreenShots.takeScreenShot(driver, res.getName());
+			logger.log(LogStatus.FAIL, "Test Failed");
+		}
+	}
+
+	@AfterTest(alwaysRun = true)
+	public void tear_down() {
+		MIP_BrowserFactory.closeDriver(driver);
+		report.endTest(logger);
+		report.flush();
+	}
+}

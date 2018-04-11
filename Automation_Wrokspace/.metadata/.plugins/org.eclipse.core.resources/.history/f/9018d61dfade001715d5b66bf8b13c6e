@@ -1,0 +1,77 @@
+package com.mip.application.login;
+
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import com.mip.framework.constants.Constants;
+import com.relevantcodes.extentreports.LogStatus;
+
+
+/**LoginBD.java incorporates TCs for all LoginPage Page of Bangladesh
+*@version   (Bangladesh)
+*@author Sivakarthic
+*/
+/*Replace Constants file as Constants file in the called object classes  */
+
+public class LoginNI {
+	
+	LoginV000 obj1 = new LoginV000();
+	
+	@BeforeTest
+	 public void initiatedriver() throws Exception
+		{
+			Properties prop = Constants.loadProperties();
+		    //Constants.driver = new FirefoxDriver();
+			System.setProperty("webdriver.chrome.driver", ".\\Browser\\chromedriver.exe");
+			Constants.driver = new ChromeDriver();
+		    Constants.driver.get(prop.getProperty("URL"));
+	        Constants.driver.manage().window().maximize();
+	        Constants.TestReports = Constants.ExecutionReports.startTest("LOGIN PAGE TESTING");
+		}
+
+	 /**
+	 * MIP_WP_TC01_Configuration : Call to LoginPage TCs for Ghana
+	 */
+	    	@Test
+	    	public void callLoginTCs() throws Exception
+	    	{
+	    		try {
+	    			Properties prop = Constants.loadProperties();
+	    			Constants.TestReports.log(LogStatus.PASS, "CALL TO LOGIN TCs FOR GHANA");
+	    			obj1.MIPBD_WP_TCs_LoginPage();
+	    		}
+	    	    catch (Exception E)
+	    	    {
+	    	    System.out.println(E);
+	    		System.out.println("CALL TO LOGIN TCs FOR GHANA: FAIL");
+	    	    Constants.TestReports.log(LogStatus.FAIL, "CALL TO LOGIN TCs FOR GHANA");	
+	    	    }
+	    		
+	    	} 
+	    	
+	    	 @AfterTest
+	 	    public void finish ()
+	 	    {
+	 			
+	 			Constants.ExecutionReports.endTest(Constants.TestReports);
+	 			Constants.ExecutionReports.flush();
+	 			Constants.driver.close();
+	 			
+	 		
+	 		} 
+	 		
+
+
+}
+
+
+
+
+
